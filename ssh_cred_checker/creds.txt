@@ -1,0 +1,13 @@
+# Format: username:password
+admin:admin
+admin:password
+root:root
+root:admin
+root:password
+user:user
+pi:raspberry
+ubuntu:ubuntu
+guest:guest
+support:support
+guest:
+

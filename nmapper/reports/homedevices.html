@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 750px;
+                 background-color: #222222;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#ff9900", "font": {"color": "white"}, "id": "192.168.0.249", "label": "192.168.0.249\nMicrosoft Windows 11 21H2 (91%)", "shape": "dot", "title": "\u003cb\u003eIP:\u003c/b\u003e 192.168.0.249\n\u003cb\u003eMAC:\u003c/b\u003e 4c:3b:df:f1:ad:70\n\u003cb\u003eOS:\u003c/b\u003e Microsoft Windows 11 21H2 (91%)"}, {"color": "#ff9900", "font": {"color": "white"}, "id": "192.168.0.201", "label": "192.168.0.201\nLinux 4.X|5.X", "shape": "dot", "title": "\u003cb\u003eIP:\u003c/b\u003e 192.168.0.201\n\u003cb\u003eMAC:\u003c/b\u003e e0:9d:13:a0:fc:bc\n\u003cb\u003eOS:\u003c/b\u003e Linux 4.X|5.X"}, {"color": "#ff9900", "font": {"color": "white"}, "id": "192.168.0.244", "label": "192.168.0.244\nUnknown", "shape": "dot", "title": "\u003cb\u003eIP:\u003c/b\u003e 192.168.0.244\n\u003cb\u003eMAC:\u003c/b\u003e 92:a9:f9:ac:f1:33\n\u003cb\u003eOS:\u003c/b\u003e Unknown"}, {"color": "#ff9900", "font": {"color": "white"}, "id": "192.168.0.252", "label": "192.168.0.252\nUnknown", "shape": "dot", "title": "\u003cb\u003eIP:\u003c/b\u003e 192.168.0.252\n\u003cb\u003eMAC:\u003c/b\u003e Unknown\n\u003cb\u003eOS:\u003c/b\u003e Unknown"}, {"color": "#ff9900", "font": {"color": "white"}, "id": "192.168.0.196", "label": "192.168.0.196\nUnknown", "shape": "dot", "title": "\u003cb\u003eIP:\u003c/b\u003e 192.168.0.196\n\u003cb\u003eMAC:\u003c/b\u003e e2:1a:ee:0b:30:85\n\u003cb\u003eOS:\u003c/b\u003e Unknown"}, {"color": "#ff9900", "font": {"color": "white"}, "id": "192.168.0.14", "label": "192.168.0.14\nLinux 2.6.32 - 3.13 (97%)", "shape": "dot", "title": "\u003cb\u003eIP:\u003c/b\u003e 192.168.0.14\n\u003cb\u003eMAC:\u003c/b\u003e 84:e0:58:65:48:2d\n\u003cb\u003eOS:\u003c/b\u003e Linux 2.6.32 - 3.13 (97%)"}, {"color": "#ff9900", "font": {"color": "white"}, "id": "192.168.0.1", "label": "192.168.0.1\nOpenWrt 0.9 - 7.09 (Linux 2.4.30 - 2.4.34) (94%)", "shape": "dot", "title": "\u003cb\u003eIP:\u003c/b\u003e 192.168.0.1\n\u003cb\u003eMAC:\u003c/b\u003e 20:9a:7d:b0:8b:2c\n\u003cb\u003eOS:\u003c/b\u003e OpenWrt 0.9 - 7.09 (Linux 2.4.30 - 2.4.34) (94%)"}, {"color": "#ff9900", "font": {"color": "white"}, "id": "192.168.0.223", "label": "192.168.0.223\nAndroid 5.1 (98%)", "shape": "dot", "title": "\u003cb\u003eIP:\u003c/b\u003e 192.168.0.223\n\u003cb\u003eMAC:\u003c/b\u003e 78:80:38:83:2d:1d\n\u003cb\u003eOS:\u003c/b\u003e Android 5.1 (98%)"}, {"color": "#ff9900", "font": {"color": "white"}, "id": "192.168.0.202", "label": "192.168.0.202\nGoogle Android 5.X", "shape": "dot", "title": "\u003cb\u003eIP:\u003c/b\u003e 192.168.0.202\n\u003cb\u003eMAC:\u003c/b\u003e 8c:49:62:62:be:6b\n\u003cb\u003eOS:\u003c/b\u003e Google Android 5.X"}, {"color": "#ff9900", "font": {"color": "white"}, "id": "192.168.0.253", "label": "192.168.0.253\nUnknown", "shape": "dot", "title": "\u003cb\u003eIP:\u003c/b\u003e 192.168.0.253\n\u003cb\u003eMAC:\u003c/b\u003e Unknown\n\u003cb\u003eOS:\u003c/b\u003e Unknown"}, {"color": "#ff9900", "font": {"color": "white"}, "id": "192.168.0.224", "label": "192.168.0.224\nCyanogenMod 11 (Android 4.4.4) (97%)", "shape": "dot", "title": "\u003cb\u003eIP:\u003c/b\u003e 192.168.0.224\n\u003cb\u003eMAC:\u003c/b\u003e 2c:64:1f:f9:17:19\n\u003cb\u003eOS:\u003c/b\u003e CyanogenMod 11 (Android 4.4.4) (97%)"}, {"color": "#ff9900", "font": {"color": "white"}, "id": "192.168.0.248", "label": "192.168.0.248\nLinux 3.10 - 4.11 (98%)", "shape": "dot", "title": "\u003cb\u003eIP:\u003c/b\u003e 192.168.0.248\n\u003cb\u003eMAC:\u003c/b\u003e 2c:95:69:11:6d:41\n\u003cb\u003eOS:\u003c/b\u003e Linux 3.10 - 4.11 (98%)"}, {"color": "#ff9900", "font": {"color": "white"}, "id": "192.168.0.2", "label": "192.168.0.2\nUnknown", "shape": "dot", "title": "\u003cb\u003eIP:\u003c/b\u003e 192.168.0.2\n\u003cb\u003eMAC:\u003c/b\u003e 64:b7:08:b3:36:88\n\u003cb\u003eOS:\u003c/b\u003e Unknown"}, {"color": "#ff9900", "font": {"color": "white"}, "id": "192.168.0.200", "label": "192.168.0.200\nLinux 5.0 - 5.5 (97%)", "shape": "dot", "title": "\u003cb\u003eIP:\u003c/b\u003e 192.168.0.200\n\u003cb\u003eMAC:\u003c/b\u003e 6c:0c:9a:b7:d0:ed\n\u003cb\u003eOS:\u003c/b\u003e Linux 5.0 - 5.5 (97%)"}, {"color": "#ff9900", "font": {"color": "white"}, "id": "192.168.0.158", "label": "192.168.0.158\nUnknown", "shape": "dot", "title": "\u003cb\u003eIP:\u003c/b\u003e 192.168.0.158\n\u003cb\u003eMAC:\u003c/b\u003e e4:a7:a0:29:b1:93\n\u003cb\u003eOS:\u003c/b\u003e Unknown"}, {"color": "#ff9900", "font": {"color": "white"}, "id": "192.168.0.211", "label": "192.168.0.211\nUnknown", "shape": "dot", "title": "\u003cb\u003eIP:\u003c/b\u003e 192.168.0.211\n\u003cb\u003eMAC:\u003c/b\u003e 3c:58:c2:ce:53:1f\n\u003cb\u003eOS:\u003c/b\u003e Unknown"}, {"color": "#ff9900", "font": {"color": "white"}, "id": "192.168.0.254", "label": "192.168.0.254\nUnknown", "shape": "dot", "title": "\u003cb\u003eIP:\u003c/b\u003e 192.168.0.254\n\u003cb\u003eMAC:\u003c/b\u003e Unknown\n\u003cb\u003eOS:\u003c/b\u003e Unknown"}]);
+                  edges = new vis.DataSet([{"from": "192.168.0.1", "to": "192.168.0.249"}, {"from": "192.168.0.1", "to": "192.168.0.201"}, {"from": "192.168.0.1", "to": "192.168.0.244"}, {"from": "192.168.0.1", "to": "192.168.0.252"}, {"from": "192.168.0.1", "to": "192.168.0.196"}, {"from": "192.168.0.1", "to": "192.168.0.14"}, {"from": "192.168.0.1", "to": "192.168.0.223"}, {"from": "192.168.0.1", "to": "192.168.0.202"}, {"from": "192.168.0.1", "to": "192.168.0.253"}, {"from": "192.168.0.1", "to": "192.168.0.224"}, {"from": "192.168.0.1", "to": "192.168.0.248"}, {"from": "192.168.0.1", "to": "192.168.0.2"}, {"from": "192.168.0.1", "to": "192.168.0.200"}, {"from": "192.168.0.1", "to": "192.168.0.158"}, {"from": "192.168.0.1", "to": "192.168.0.211"}, {"from": "192.168.0.1", "to": "192.168.0.254"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

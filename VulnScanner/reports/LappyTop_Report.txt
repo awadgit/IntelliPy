@@ -1,0 +1,49 @@
+{
+    "target_ip": "172.16.2.210",
+    "hostname": "LappyTop",
+    "active_services": {
+        "135": {
+            "service": "msrpc",
+            "version": ""
+        },
+        "139": {
+            "service": "netbios-ssn",
+            "version": ""
+        },
+        "445": {
+            "service": "microsoft-ds",
+            "version": ""
+        },
+        "5357": {
+            "service": "http",
+            "version": "2.0"
+        },
+        "49152": {
+            "service": "msrpc",
+            "version": ""
+        },
+        "49153": {
+            "service": "msrpc",
+            "version": ""
+        },
+        "49154": {
+            "service": "msrpc",
+            "version": ""
+        },
+        "49155": {
+            "service": "msrpc",
+            "version": ""
+        }
+    },
+    "potential_vulnerabilities": [
+        {
+            "cve": "CVE-2017-0144",
+            "name": "EternalBlue",
+            "port": 445,
+            "service": "microsoft-ds",
+            "description": "Remote code execution via SMB (used by WannaCry ransomware).",
+            "cvss": 10.0
+        }
+    ],
+    "critical_vulnerabilities": "None (no exploits confirmed)"
+}
